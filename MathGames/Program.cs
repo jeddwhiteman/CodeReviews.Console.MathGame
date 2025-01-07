@@ -42,7 +42,7 @@ void Menu(string gameSelection)
             break;
         case "q":
             Console.WriteLine("Goodbye");
-            Environment.Exit(0); ;
+            Environment.Exit(0);
             break;
         default:
             Console.WriteLine("Invalid Option");
