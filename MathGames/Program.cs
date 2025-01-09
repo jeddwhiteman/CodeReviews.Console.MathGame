@@ -1,26 +1,28 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using System.ComponentModel.Design;
-
 Console.WriteLine("Please type your name: ");
 
 var name = Console.ReadLine();
-var date = DateTime.UtcNow;
 
-Console.WriteLine("-------------------------------------------------------------------");
-Console.WriteLine($"Hello {name?.ToUpper()}. It's {date.DayOfWeek}. This is your math game.");
+while (true)
+{
+    var date = DateTime.UtcNow;
 
-Console.WriteLine($@"What game would you like to play? Choose options from below:
+    Console.WriteLine("-------------------------------------------------------------------");
+    Console.WriteLine($"Hello {name?.ToUpper()}. It's {date.DayOfWeek}. This is your math game.");
+
+    Console.WriteLine($@"What game would you like to play? Choose options from below:
 A - Addition
 S - Subtraction
 M - Muliplication
 D - Division
 Q - Quit the program");
-Console.WriteLine("-------------------------------------------------------------------");
-string gameSelected = Console.ReadLine();
+    Console.WriteLine("-------------------------------------------------------------------");
+    string gameSelected = Console.ReadLine();
 
 
-Menu(gameSelected);
-
+    Menu(gameSelected);
+}
 
 
 void Menu(string gameSelection)
