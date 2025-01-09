@@ -1,8 +1,11 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using MathGames;
 using System.ComponentModel.Design;
+using System.Security.AccessControl;
 Console.WriteLine("Please type your name: ");
-
 var name = Console.ReadLine();
+
+List<GameHistory> history = new List<GameHistory>();
 
 while (true)
 {
@@ -16,6 +19,7 @@ A - Addition
 S - Subtraction
 M - Muliplication
 D - Division
+V - View Previous games
 Q - Quit the program");
     Console.WriteLine("-------------------------------------------------------------------");
     string gameSelected = Console.ReadLine();
@@ -42,6 +46,9 @@ void Menu(string gameSelection)
         case "d":
             DivisionGame();
             break;
+        case "v":
+            DisplayPreviousGames();
+            break;
         case "q":
             Console.WriteLine("Goodbye");
             Environment.Exit(0);
@@ -51,9 +58,6 @@ void Menu(string gameSelection)
             break;
     }
 }
-
-
-
 void AdditionGame()
 {
     Console.WriteLine("Addition game has been selected");
@@ -64,8 +68,6 @@ void AdditionGame()
         int numberOne = randomNumber.Next(100);
         int numberTwo = randomNumber.Next(100);
 
-        List<int> previousAnswers = new List<int>();
-
         Console.WriteLine($"What is {numberOne} + {numberTwo}");
 
         var userAnswer = Console.ReadLine();
@@ -73,17 +75,17 @@ void AdditionGame()
         if (int.Parse(userAnswer) == (numberOne + numberTwo))
         {
             Console.WriteLine("You are correct!");
-            previousAnswers.Add(int.Parse(userAnswer));
+            history.Add(new GameHistory() { UserName = name, GameResult = "Win", GameType = "Addition", DateOfGame = DateTime.UtcNow.ToLocalTime()});
             break;
         }
         else
         {
             Console.WriteLine("Try again!");
+            history.Add(new GameHistory() { UserName = name, GameResult = "Loss", GameType = "Addition", DateOfGame = DateTime.UtcNow.ToLocalTime() });
         }
     }
 
 }
-
 void SubtractionGame()
 {
     Console.WriteLine("Subtraction game has been selected");
@@ -94,26 +96,23 @@ void SubtractionGame()
         int numberOne = randomNumber.Next(100);
         int numberTwo = randomNumber.Next(100);
 
-        List<int> previousAnswers = new List<int>();
-
         Console.WriteLine($"What is {numberOne} - {numberTwo}");
 
         var userAnswer = Console.ReadLine();
 
-
         if (int.Parse(userAnswer) == (numberOne - numberTwo))
         {
             Console.WriteLine("You are correct!");
-            previousAnswers.Add(int.Parse(userAnswer));
+            history.Add(new GameHistory() { UserName = name, GameResult = "Win", GameType = "Subtraction", DateOfGame = DateTime.UtcNow.ToLocalTime() });
             break;
         }
         else
         {
             Console.WriteLine("Try again!");
+            history.Add(new GameHistory() { UserName = name, GameResult = "Loss", GameType = "Subtraction", DateOfGame = DateTime.UtcNow.ToLocalTime() });
         }
     }
 }
-
 void MultiplicationGame()
 {
     Console.WriteLine("Multiplication game has been selected");
@@ -124,8 +123,6 @@ void MultiplicationGame()
         int numberOne = randomNumber.Next(100);
         int numberTwo = randomNumber.Next(100);
 
-        List<int> previousAnswers = new List<int>();
-
         Console.WriteLine($"What is {numberOne} * {numberTwo}");
 
         var userAnswer = Console.ReadLine();
@@ -134,16 +131,16 @@ void MultiplicationGame()
         if (int.Parse(userAnswer) == (numberOne * numberTwo))
         {
             Console.WriteLine("You are correct!");
-            previousAnswers.Add(int.Parse(userAnswer));
+            history.Add(new GameHistory() { UserName = name, GameResult = "Win", GameType = "Multiplication", DateOfGame = DateTime.UtcNow.ToLocalTime() });
             break;
         }
         else
         {
             Console.WriteLine("Try again!");
+            history.Add(new GameHistory() { UserName = name, GameResult = "Loss", GameType = "Multiplication", DateOfGame = DateTime.UtcNow.ToLocalTime() });
         }
     }
 }
-
 void DivisionGame()
 {
     Console.WriteLine("Division game has been selected");
@@ -159,8 +156,6 @@ void DivisionGame()
             numberTwo = randomNumber.Next(100);
         }
 
-        List<int> previousAnswers = new List<int>();
-
         Console.WriteLine($"What is {numberOne} / {numberTwo}");
 
         var userAnswer = Console.ReadLine();
@@ -171,12 +166,24 @@ void DivisionGame()
         if (int.Parse(userAnswer) == (numberOne / numberTwo))
         {
             Console.WriteLine("You are correct!");
-            previousAnswers.Add(int.Parse(userAnswer));
+            history.Add(new GameHistory() { UserName = name, GameResult = "Win", GameType = "Division", DateOfGame = DateTime.UtcNow.ToLocalTime() });
             break;
         }
         else
         {
             Console.WriteLine("Try again!");
+            history.Add(new GameHistory() { UserName = name, GameResult = "Loss", GameType = "Division", DateOfGame = DateTime.UtcNow.ToLocalTime() });
         }
     }
+}
+void DisplayPreviousGames()
+{
+    int gameId = 1;
+    Console.WriteLine();
+    foreach (var historyItem in history)
+    {
+        Console.WriteLine($"Game Id: {gameId}, Username: {historyItem.UserName}, Game Type: {historyItem.GameType}, Game Result: {historyItem.GameResult}, Date Played: {historyItem.DateOfGame.ToLocalTime()}");
+        gameId++;
+    }
+
 }
